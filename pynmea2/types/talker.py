@@ -341,6 +341,24 @@ class RMC(TalkerSentence, ValidStatusFix, LatLonFix, DatetimeFix):
         ("Magnetic Variation Direction", "mag_var_dir"),
     )
 
+class RSD(TalkerSentence):
+    """ RADAR System Data
+    """
+    fields = (("Origin 1 range", "origin_1_range"), # Origin 1 range, from own ship
+              ("Origin 1 bearing", "origin_1_bearing", float), # Origin 1 bearing, degrees from 0
+              ("Variable Range Marker 1", "VRM1"), # Variable Range Marker 1 (VRM1), range
+              ("Bearing Line 1", "EBL1", float), # Bearing Line 1 (EBL1), degrees from 0
+              ("Origin 2 range", "origin_2_range"), # Origin 2 range
+              ("Origin 2 bearing", "origin_2_bearing", float), # Origin 2 bearing
+              ("Variable Range Marker 2", "VRM2"), # VRM2, range
+              ("Bearing Line 2", "EBL2"), # EBL2, degrees
+              ("Cursor Range", "Cursor_range", Decimal), # Cursor Range From Own Ship
+              ("Cursor Bearing Degrees", "cursor_bearing", float), # Cursor Bearing Degrees Clockwise From Zero
+              ("Range Scale", "range_scale", Decimal), # Range Scale
+              ("Range Unit", "dist_unit"), # Range Unit
+              ("Display rotation", "display_rotation"), # Display rotation 1
+              )
+    
 class RTE(TalkerSentence):
     """ Routes
     """
