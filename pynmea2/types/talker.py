@@ -690,6 +690,9 @@ class VPW(TalkerSentence):
 #  4) M = Meters per second
 #  5) Checksum
 
+# ---------------------------------- Implemented by Klint-K ------------------ #
+# ---------------------------------------------------------------------------- #
+
 class VDR(TalkerSentence):
     fields = (
         ("Degrees True", "deg_t", float),
@@ -826,68 +829,280 @@ class TTM(TalkerSentence):
         ("Acquisition Type", "acquisition"),  # A / M (Automatic / Manual)
     )
 
-# ---------------------------------- Not Yet Implemented --------------------- #
+# ---------------------------------- Implemented by Klint-K ------------------ #
 # ---------------------------------------------------------------------------- #
 
-#class FSI(TalkerSentence):
-#    """ Frequency Set Information
-#    """
-    #    fields = (
-    # )
 
-#class GLC(TalkerSentence):
-#    """ Geographic Position, Loran-C
-#    """
-    #    fields = (
-    # )
+class FSI(TalkerSentence):
+    """ Frequency Set Information
+    """
+    fields = (
+        ("Transmitting Frequency", "xmit_freq", Decimal),
+        ("Receiving Frequency", "reciv_feq", Decimal),
+        ("Communications Mode", "com_mode"),
+        ("Power Level", "pwr_lvl"),
+        )
 
-#class GXA(TalkerSentence):
-#    """ TRANSIT Position
-#    """
-    #    fields = (
-    # )
+# FSI   Frequency Set Information
+#        1      2      3 4 5
+#        |      |      | | |
+# $--FSI,xxxxxx,xxxxxx,c,x*hh
+# 1) Transmitting Frequency
+# 2) Receiving Frequency
+# 3) Communications Mode (NMEA Syntax 2)
+# 4) Power Level
+# 5) Checksum
 
-#class LCD(TalkerSentence):
-#    """ Loran-C Signal Data
-#    """
-    #    fields = (
-    # )
 
-#class MTA(TalkerSentence):
-#    """ Air Temperature (to be phased out)
-#    """
-    #    fields = (
-    # )
+class GLC(TalkerSentence):
+    """ Geographic Position, Loran-C
+    """
+    fields = (
+        ("GRI Microseconds/10", "gri_ms", Decimal),
+        ("Master TOA Microseconds", "toa_ms", float),
+        ("Master TOA Signal Status", "toa_sig_stat"),
+        ("Time Difference 1 Microseconds", "td_1_ms", float),
+        ("Time Difference 1 Signal Status", "td_1_sig_stat"),
+        ("Time Difference 2 Microseconds", "td_2_ms", float),
+        ("Time Difference 2 Signal Status", "td_2_sig_stat"),
+        ("Time Difference 3 Microseconds", "td_3_ms", float),
+        ("Time Difference 3 Signal Status", "td_3_sig_stat"),
+        ("Time Difference 4 Microseconds", "td_4_ms", float),
+        ("Time Difference 4 Signal Status", "td_4_sig_stat"),
+        ("Time Difference 5 Microseconds", "td_5_ms", float),
+        ("Time Difference 5 Signal Status", "td_5_sig_stat"),
+     )
 
-#class OLN(TalkerSentence):
-#    """ Omega Lane Numbers
-#    """
-    #    fields = (
-    # )
+# GLC Geographic Position, Loran-C
+#                                           12    14
+#        1    2   3 4   5 6   7 8   9 10  11|   13|
+#        |    |   | |   | |   | |   | |   | |   | |
+# $--GLC,xxxx,x.x,a,x.x,a,x.x,a.x,x,a,x.x,a,x.x,a*hh
+#  1) GRI Microseconds/10
+#  2) Master TOA Microseconds
+#  3) Master TOA Signal Status
+#  4) Time Difference 1 Microseconds
+#  5) Time Difference 1 Signal Status
+#  6) Time Difference 2 Microseconds
+#  7) Time Difference 2 Signal Status
+#  8) Time Difference 3 Microseconds
+#  9) Time Difference 3 Signal Status
+# 10) Time Difference 4 Microseconds
+# 11) Time Difference 4 Signal Status
+# 12) Time Difference 5 Microseconds
+# 13) Time Difference 5 Signal Status
+# 14) Checksum
+# 
+# GXA TRANSIT Position – Latitude/Longitude, Location and Time of TRANSIT Fix at Waypoint
+# obsolete
 
-#class SFI(TalkerSentence):
-#    """ Scanning Frequency Information
-#    """
-    #    fields = (
-    # )
+class GXA(TalkerSentence):
+    """ TRANSIT Position
+    """
+    fields = (
+        ("UTC of position fix", 'timestamp', timestamp),
+        ('Latitude', 'lat', float),
+        ('Latitude Direction', 'lat_dir'),
+        ('Longitude', 'lon', float),
+        ('Longitude Direction', 'lon_dir'),
+        ("Waypoint ID", ""),
+        ("Satelite number", "sat_numb"),
+        )
 
-#class XTR(TalkerSentence):
-#    """ Cross-Track Error, Dead Reckoning
-#    """
-    #    fields = (
-    # )
+# https://github.com/jcable/gpsd/www/NMEA.txt
+# === GXA - TRANSIT Position - Latitude/Longitude ===
+# 
+# Location and time of TRANSIT fix at waypoint
+# 
+# ------------------------------------------------------------------------------
+#         1         2       3 4        5 6    7 8
+#         |         |       | |        | |    | |
+#  $--GXA,hhmmss.ss,llll.ll,a,yyyyy.yy,a,c--c,X*hh<CR><LF>
+# ------------------------------------------------------------------------------
+# 
+# Field Number: 
+# 
+# 1. UTC of position fix
+# 2. Latitude
+# 3. East or West
+# 4. Longitude
+# 5. North or South
+# 6. Waypoint ID
+# 7. Satelite number
+# 8. Checksum
 
-#class ZFO(TalkerSentence):
-#    """ UTC & Time from Origin Waypoint
-#    """
-    #    fields = (
-    # )
+class LCD(TalkerSentence):
+    """ Loran-C Signal Data
+    """
+    fields = (
+        ("GRI Microseconds/10", "gri_ms", Decimal),
+        ("Master Relative SNR", "snr", Decimal),
+        ("Master Relative ECD", "ecd", Decimal),
+        ("Time Difference 1 Microseconds", "td_1_ms", Decimal),
+        ("Time Difference 1 Signal Status", "td_1_sig_stat", Decimal),
+        ("Time Difference 2 Microseconds", "td_2_ms", Decimal),
+        ("Time Difference 2 Signal Status", "td_2_sig_stat", Decimal),
+        ("Time Difference 3 Microseconds", "td_3_ms", Decimal),
+        ("Time Difference 3 Signal Status", "td_3_sig_stat", Decimal),
+        ("Time Difference 4 Microseconds", "td_4_ms", Decimal),
+        ("Time Difference 4 Signal Status", "td_4_sig_stat", Decimal),
+        ("Time Difference 5 Microseconds", "td_5_ms", Decimal),
+        ("Time Difference 5 Signal Status", "td_5_sig_stat", Decimal),
+     )
 
-#class ZTG(TalkerSentence):
-#    """ UTC & Time to Destination Waypoint
-#    """
-    #    fields = (
-    # )
+# LCD Loran-C Signal Data
+#        1    2   3   4   5   6   7   8   9   10  11  12  13  14
+#        |    |   |   |   |   |   |   |   |   |   |   |   |   |
+# $--LCD,xxxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx*hh
+#  1) GRI Microseconds/10
+#  2) Master Relative SNR
+#  3) Master Relative ECD
+#  4) Time Difference 1 Microseconds
+#  5) Time Difference 1 Signal Status
+#  6) Time Difference 2 Microseconds
+#  7) Time Difference 2 Signal Status
+#  8) Time Difference 3 Microseconds
+#  9) Time Difference 3 Signal Status
+# 10) Time Difference 4 Microseconds
+# 11) Time Difference 4 Signal Status
+# 12) Time Difference 5 Microseconds
+# 13) Time Difference 5 Signal Status
+# 14) Checksum
+
+class MTA(TalkerSentence):
+    """ Air Temperature (to be phased out)
+    """
+    fields = (
+        ('Air temperature', 'temperature', float),
+        ('Unit of measurement', 'units'),
+        )
+
+
+# MTA Air Temperature (to be phased out) obsolete
+#        1   2 3
+#        |   | | 
+# $--MTW,x.x,C*hh
+# 1) Degrees
+# 2) Unit of Measurement, Celcius
+# 3) Checksum
+
+class OLN(TalkerSentence):
+    """ Omega Lane Numbers
+    """
+    fields = (
+        ("Omega Pair 1", "omg_pr_1"),
+        ("Omega Pair 1 quontity", "omg_pr_1_qtu"),
+        ("Omega Pair 1 total", "omg_pr_1_tot"),
+        ("Omega Pair 2", "omg_pr_2"),
+        ("Omega Pair 2 quontity", "omg_pr_2_qtu"),
+        ("Omega Pair 2 total", "omg_pr_2_tot"),
+        ("Omega Pair 3", "omg_pr_3"),
+        ("Omega Pair 3 quontity", "omg_pr_3_qtu"),
+        ("Omega Pair 3 total", "omg_pr_3_tot"),
+        )
+
+# === OLN - Omega Lane Numbers ===
+# (The OLN sentence is obsolete as of 2.30)
+# 
+# ------------------------------------------------------------------------------
+#         1          2          3          4
+#         |--------+ |--------+ |--------+ |
+#  $--OLN,aa,xxx,xxx,aa,xxx,xxx,aa,xxx,xxx*hh<CR><LF>
+# ------------------------------------------------------------------------------
+# 
+# Field Number: 
+# 
+# 1. Omega Pair 1
+# 2. Omega Pair 1
+# 3. Omega Pair 1
+# 4. Checksum
+
+
+class SFI(TalkerSentence):
+    """ Scanning Frequency Information
+    """
+    fields = (
+        ("Total number of messages", "total_num_msgs"),
+        ("Message number", "msg_num"),
+        ("Frequency 1", "freq"),
+        ("Mode 1", "mode"),
+        )
+
+# SFI Scanning Frequency Information
+#        1   2   3      4                     n
+#        |   |   |      |                     |
+# $--SFI,x.x,x.x,xxxxxx,c .......... xxxxxx,c*hh
+# 1) Total Number Of Messages
+# 2) Message Number
+# 3) Frequency 1
+# 4) Mode 1
+# n) Checksum
+
+
+
+class XTR(TalkerSentence):
+    """ Cross-Track Error, Dead Reckoning
+    """
+    fields = (
+        ("Magnitude of cross track error", "cross_track_error", float),
+        ("Direction to steer, L or R", "l_r"), # L or R
+        ("Units", "unit"), # N = Nautical Miles
+        )
+
+# === XTR - Cross Track Error - Dead Reckoning ===
+# 
+# ------------------------------------------------------------------------------
+#         1   2 3 4
+#         |   | | |
+#  $--XTR,x.x,a,N*hh<CR><LF>
+# ------------------------------------------------------------------------------
+# 
+# Field Number: 
+# 
+# 1. Magnitude of cross track error
+# 2. Direction to steer, L or R
+# 3. Units, N = Nautical Miles
+# 4. Checksum
+
+
+class ZFO(TalkerSentence):
+    """ UTC & Time from Origin Waypoint
+    """
+    fields = (
+        ("Time (UTC)", "timestamp", timestamp),
+        ("Elapsed Time",  "elap_time", timestamp),
+        ("Origin Waypoint ID", "id"),
+        )
+
+# ZFO UTC & Time from Origin Waypoint
+#        1         2         3    4
+#        |         |         |    |
+# $--ZFO,hhmmss.ss,hhmmss.ss,c--c*hh
+# 1) Time (UTC)
+# 2) Elapsed Time
+# 3) Origin Waypoint ID
+# 4) Checksum
+
+class ZTG(TalkerSentence):
+    """ UTC & Time to Destination Waypoint
+    """
+    fields = (
+        ("Time (UTC)", "timestamp", timestamp),
+        ("Elapsed Time",  "elap_time", timestamp),
+        ("Destination Waypoint ID", "id"),
+        )
+
+# ZTG UTC & Time to Destination Waypoint
+#        1         2         3    4
+#        |         |         |    |
+# $--ZTG,hhmmss.ss,hhmmss.ss,c--c*hh
+# 1) Time (UTC)
+# 2) Time Remaining
+# 3) Destination Waypoint ID
+# 4) Checksum
+
+
+
 
 # ---------------------------------------------------------------------------- #
 # -------------------------- Unknown Formats --------------------------------- #
@@ -1028,6 +1243,10 @@ class ALK(TalkerSentence,SeaTalk):
         ("Data Byte 8", "data_byte8"),
         ("Data Byte 9", "data_byte9")
     )
+
+    
+# ---------------------------------- Implemented by Klint-K ------------------ #
+# ---------------------------------------------------------------------------- #
 
 class VDM(TalkerSentence):
     fields = (
