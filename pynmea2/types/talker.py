@@ -865,12 +865,6 @@ class TTM(TalkerSentence):
     #    fields = (
     # )
 
-#class RSD(TalkerSentence):
-#    """ RADAR System Data
-#    """
-    #    fields = (
-    # )
-
 #class SFI(TalkerSentence):
 #    """ Scanning Frequency Information
 #    """
@@ -1034,3 +1028,30 @@ class ALK(TalkerSentence,SeaTalk):
         ("Data Byte 8", "data_byte8"),
         ("Data Byte 9", "data_byte9")
     )
+
+class VDM(TalkerSentence):
+    fields = (
+        ("Number of Sentences ", "numb_of_sent"),
+        ("Sentence Number", "sent_numb"),
+        ("Message ID", "msg_id"), # Normally blank 
+        ("AIS Channel", "channel"),
+        ("Encoded AIS Data", "data"), # Data is to be hanlded by another program
+        ("End of Data", "eod"),
+        )
+
+# VDM - NMEA AIS
+
+#        1 2 3 4 5   6 7
+#        | | | | |   | |
+# !--VDM,x,x.x,A,xxx,N*hh<CR><LF>
+
+# Field Number:
+#  0) !--VDM:        The NMEA message type
+#  1) Number of Sentences (some messages need more then one)
+#  2) Sentence Number (1 unless it´s a multi-sentence message)
+#  3) The blank is the Sequential Message ID (for multi-sentence messages)
+#  4) The AIS Channel (A or B)
+#  5) The Encoded AIS Data (14eG;...)
+#  6) End of Data (0*)
+#  7) Checksum
+
