@@ -43,7 +43,8 @@ class NMEASentence(NMEASentenceBase):
 
     sentence_re = re.compile(r'''
         # start of string, optional whitespace, optional '$'
-        ^\s*\$?
+        #^\s*\$?
+        ^\s*\$*\!?
 
         # message (from '$' or start to checksum or end, non-inclusve)
         (?P<nmea_str>
