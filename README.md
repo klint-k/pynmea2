@@ -1,6 +1,7 @@
 This is Forked
 ==============
-I found the need to use some older and more obscure nmea sentences. So added VDM, VDO, and more. I also found that the “$” was not the only start for the line. The install instructions have changed.
+I found the need to use some older and more obscure nmea sentences. So added VDM, VDO, and more. I also found that the “$” was not the only start for the line. 
+The install instructions have changed.
 
 pynmea2
 =======
@@ -21,7 +22,7 @@ If you want to use this forked repository, copy the github to the directory that
 
 ```git clone https://github.com/klint-k/pynmea2.git```
 
-Then so long as you use the pynmea2 while in the directory should work.
+Then so long as you use the pynmea2 while in the directory it should work.
 
 Parsing
 -------
