@@ -1,3 +1,7 @@
+This is Forked
+==============
+I found the need to use some older and more obscure nmea sentences. So added VDM, VDO, and more. I also found that the “$” was not the only start for the line. The install instructions have changed.
+
 pynmea2
 =======
 
@@ -13,14 +17,11 @@ The `pynmea2` homepage is located at http://github.com/Knio/pynmea2
 [![Code Health](https://landscape.io/github/Knio/pynmea2/master/landscape.svg?style=flat)](https://landscape.io/github/Knio/pynmea2/master)
 
 ### Installation
+If you want to use this forked repository, copy the github to the directory that you will be using.
 
-The recommended way to install `pynmea2` is with
-[pip](http://pypi.python.org/pypi/pip/):
+```git clone https://github.com/klint-k/pynmea2.git```
 
-    pip install pynmea2
-
-[![PyPI version](https://img.shields.io/pypi/v/pynmea2.svg?style=flat)](https://pypi.org/project/pynmea2/)
-[![PyPI downloads](https://img.shields.io/pypi/dm/pynmea2.svg?style=flat)](https://pypi.org/project/pynmea2/)
+Then so long as you use the pynmea2 while in the directory should work.
 
 Parsing
 -------
